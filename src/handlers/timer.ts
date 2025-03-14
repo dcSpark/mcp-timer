@@ -2,6 +2,9 @@ import { ToolResultSchema } from "../types.js";
 import { createErrorResponse, createSuccessResponse } from "./utils.js";
 import { TimerInput } from "./timer.types.js";
 
+// Keep track of active timers
+const activeTimers = new Map<string, NodeJS.Timeout>();
+
 export const timerHandler = async (input: TimerInput): Promise<ToolResultSchema<any>> => {
   try {
     const minutes = input.minutes || 0;
@@ -16,11 +19,18 @@ export const timerHandler = async (input: TimerInput): Promise<ToolResultSchema<
     }
     
     const totalMilliseconds = (minutes * 60 + seconds) * 1000;
+    const timerId = `timer_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
     
-    // Wait for the specified duration
-    await new Promise(resolve => setTimeout(resolve, totalMilliseconds));
+    // Start the timer in the background
+    const timer = setTimeout(() => {
+      console.log(`Timer ${timerId} completed after ${minutes} minutes and ${seconds} seconds`);
+      activeTimers.delete(timerId);
+    }, totalMilliseconds);
     
-    return createSuccessResponse(`timer is finished in ${minutes} minutes and ${seconds} seconds`);
+    activeTimers.set(timerId, timer);
+    
+    // Return immediately with a success message
+    return createSuccessResponse(`Timer started for ${minutes} minutes and ${seconds} seconds with ID: ${timerId}`);
   } catch (error) {
     return createErrorResponse(`Error in timer: ${error instanceof Error ? error.message : String(error)}`);
   }

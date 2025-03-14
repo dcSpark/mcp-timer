@@ -2,6 +2,8 @@
 
 A Model Context Protocol server with a timer tool.
 
+WARNING: This is just an experiment.
+
 ## Installation
 
 ```bash
