@@ -1,9 +1,9 @@
 {
-  "name": "@dcspark/mcp-timer",
+  "name": "@mcp-dockmaster/mcp-timer",
   "version": "0.1.0",
   "description": "A Model Context Protocol server with a timer tool",
   "license": "MIT",
-  "author": "DC Spark <hello@dcspark.io>",
+  "author": "dcSpark <hello@dcspark.io>",
   "bugs": "https://github.com/dcspark/mcp-timer/issues",
   "homepage": "https://github.com/dcspark/mcp-timer",
   "repository": {
